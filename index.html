@@ -6,7 +6,13 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lab 9</title>
-
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+  window.TrackJS && TrackJS.install({ 
+    token: "b1b5d4f674874ef5971ac54e0bcf2298"
+    // for more configuration options, see https://docs.trackjs.com
+  });
+  </script>
   <style>
     button {
       margin: 3px;
@@ -86,8 +92,8 @@
       <button>Trigger a Global Error</button>
     </section>
   </main>
-
   <script>
+
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
       e.preventDefault();
@@ -98,10 +104,117 @@
       output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
     });
 
+    window.onerror = function(message, source, lineno, colno, error) {
+      console.log('Global error caught:', message);
+    };
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
 
     // Start your code here
     // You may move this JS to another file if you wish
+    
+  errorBtns[0].addEventListener('click', () => {
+    console.log('Console log demo example');
+  });
+
+
+  errorBtns[1].addEventListener('click', () => {
+    console.error('Console error demo, printed in red');
+  });
+
+
+  errorBtns[2].addEventListener('click', () => {
+    console.count('button-clicks');
+  });
+
+
+  errorBtns[3].addEventListener('click', () => {
+    console.warn('Console warn demo, printed in yellow');
+  });
+
+
+  errorBtns[4].addEventListener('click', () => {
+    console.assert(0 == 1, 'this fails as 0 not equal 1');
+    console.assert(1 == 1, 'This passes, should not be displayed');
+  });
+
+
+  errorBtns[5].addEventListener('click', () => {
+    console.clear();
+  });
+
+
+  errorBtns[6].addEventListener('click', () => {
+    console.dir(document.querySelector('button'));
+  });
+
+
+  errorBtns[7].addEventListener('click', () => {
+    console.dirxml(document.querySelector('button'));
+  });
+
+
+  errorBtns[8].addEventListener('click', () => {
+    console.group('console Group');
+    console.log('console log in group');
+    console.warn('console warn in group');
+  });
+
+  errorBtns[9].addEventListener('click', () => {
+    console.groupEnd();
+    console.log('group ended');
+  });
+
+  errorBtns[10].addEventListener('click', () => {
+    const food = [
+      { food: 'Sushi', nationality: 'Japan', rate: 4 },
+      { food: 'Burger',   nationality: 'America', rate: 4 },
+      { food: 'Pizza', nationality: 'Italy', rate: 4.5},
+    ];
+    console.table(food);
+  });
+
+  errorBtns[11].addEventListener('click', () => {
+    console.time('my-timer');
+  });
+
+  errorBtns[12].addEventListener('click', () => {
+    console.timeEnd('my-timer');
+  });
+
+
+  errorBtns[13].addEventListener('click', () => {
+    function inner() { console.trace('console trace demo'); }
+    function outer() { inner(); }
+    outer();
+  });
+  // step 3
+  try {
+    let el = document.querySelector('#aintgonnawork');
+    el.innerHTML = 'aintgonnawork';
+  } catch (e) {
+    console.error('Error:', e.message);
+  } finally {
+    console.log('Finally');
+  }
+
+  //step 4
+  class ValidationError extends Error {
+    constructor(message) {
+      super(message);
+      this.name = 'ValidationError';
+    }
+  }
+
+  try {
+    throw new ValidationError('Custom validation of error');
+  } catch (e) {
+    console.error(e);
+  }
+
+  // Step 5
+errorBtns[14].addEventListener('click', () => {
+  nonExistentFunction();
+});
   </script>
 </body>
 
